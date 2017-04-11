@@ -24,6 +24,21 @@ func CreateDatabase(databaseName string) {
 	}
 }
 
+func DropDatabase(databaseName string) {
+	session, err := r.Connect(r.ConnectOpts{
+		Address: "localhost:28015",
+	})
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	log.Println("Dropping database", databaseName)
+	_, err = r.DBDrop(databaseName).Run(session)
+	if err != nil {
+		log.Println(err.Error())
+	}
+}
+
 func CreateTable(tableName string) {
 	// connect to rethinkdb
 	session, err := r.Connect(r.ConnectOpts{
